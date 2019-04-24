@@ -22,20 +22,20 @@ namespace PAMSI
   class Graph
   {
   private:
-    unsigned int m_wierz;                                                                             //L wierz + kraw + gestosc
+    unsigned int m_wierz;                                         //L wierz + kraw + gestosc
     unsigned int m_kraw;
-    Typ m_gest;
+    double m_gest;
   
-    std::vector<std::vector<Typ>> m_mac;                                                              //Macierz WAGOWA sasiedztwa
+    std::vector<std::vector<Typ>> m_mac;                                   //Macierz WAGOWA sasiedztwa
 
-    //  std::fstream m_plik;                                                                                   //Obiekt fstream do czytania/pisania z/do pliku
+    //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
   public:
     
     template<typename Ty>
     friend std::ostream& operator << (std::ostream& Strm, const Graph<Ty>& pokazywany);
     
-    Graph(unsigned int wierz, Typ gest, czy_plik czeck): m_wierz{wierz}, m_kraw{(static_cast<int>(gest)*wierz*(wierz - 1))/2}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
+    Graph(unsigned int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<unsigned int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
     {
       try
 	{
@@ -51,7 +51,7 @@ namespace PAMSI
     Typ operator [](unsigned int ile)const { return m_mac[ile]; }
     
     void addWierz();
-    // void addKraw(unsigned int pocz, unsigned int konc);
+    void addKraw();
 
     void czytajPlik(){ std::cout<<"Czytam z pliku"<<std::endl; };
   };

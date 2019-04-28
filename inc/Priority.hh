@@ -35,10 +35,12 @@ namespace PAMSI
     
     void insert(Typ klucz, int wierz);
     
-    int length(){return priority_queue.size();};
-    int back(){return priority_queue.back().mm_wierz;};
-    int front(){return priority_queue.front().mm_wierz;};
-
+    int length(){ return priority_queue.size(); };
+    int back(){ return priority_queue.back().mm_wierz; };
+    void pop_back(){ priority_queue.pop_back(); };
+    int front(){ return priority_queue.front().mm_wierz; };
+    bool empty(){ return (priority_queue.empty() ? true:false); };
+    
     int& operator [](Typ kom);
     int operator [](Typ kom)const;
     

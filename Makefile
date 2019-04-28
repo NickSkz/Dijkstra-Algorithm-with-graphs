@@ -6,7 +6,7 @@ obj:
 	mkdir -p obj
 
 obj/main.o: src/main.cpp inc/Alias.hh  inc/Graph.hh src/Graph.cpp inc/Priority.hh src/Priority.cpp
-	g++ -c -Iinc -Isrc -std=c++11 -Wall -pedantic -o obj/main.o src/main.cpp
+	g++ -c -g -Iinc -Isrc -std=c++11 -Wall -pedantic -o obj/main.o src/main.cpp
 
 
 clean:

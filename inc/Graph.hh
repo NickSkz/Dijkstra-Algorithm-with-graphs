@@ -7,6 +7,7 @@
 #include <random>
 #include <exception>
 
+#include "Priority.hh"
 
 constexpr auto browar {12.21};
 
@@ -18,19 +19,30 @@ enum class czy_plik
 
 namespace PAMSI
 {
+  
+  template<typename Typ>
+  class Path;
+
+  
   template<typename Typ>
   class Graph
   {
+    friend Path<Typ>;
+    
   private:
     unsigned int m_wierz;                                         //L wierz + kraw + gestosc
     unsigned int m_kraw;
     double m_gest;
   
     std::vector<std::vector<Typ>> m_mac;                                   //Macierz WAGOWA sasiedztwa
-
+    std::vector<std::vector<Typ>> sasiady;
     //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
+    void gen_los();
+    
   public:
+
+    int* dystans;
     
     template<typename Ty>
     friend std::ostream& operator << (std::ostream& Strm, const Graph<Ty>& pokazywany);
@@ -41,10 +53,12 @@ namespace PAMSI
 	{
 	  czeck == czy_plik::nPlik ? addWierz() : czytajPlik();
 	}
-      catch(...)
+      catch(std::bad_alloc)
 	{
-	  std::cout<<"Cos sie popsulo i nie bylo mnie slychac"<<std::endl;
+	  std::cout<<"Cos sie popsulo i nie bylo mnie slychac - bad alloc - klasa Graph"<<std::endl;
 	}
+
+      dystans = new int[m_wierz];
     };
 
     Typ& operator [](unsigned int ile) { return m_mac[ile]; }
@@ -52,9 +66,21 @@ namespace PAMSI
     
     void addWierz();
     void addKraw();
-
     void czytajPlik(){ std::cout<<"Czytam z pliku"<<std::endl; };
+    void createSasiad();
+
+
+    void dijkstra_alg(unsigned int start);
+    void wyswietl_dyst();
   };
+
+
+
+
+
+
+
+
 
 
   template<typename Ty>

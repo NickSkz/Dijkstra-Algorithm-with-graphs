@@ -1,5 +1,10 @@
 namespace PAMSI
-{ 
+{  
+  
+  /************************************************/
+  /* METODA GENERUJACA MACIERZ ZEROWA + DAJE KRAW */ 
+  /************************************************/
+  
   template<typename Typ>
   void Graph<Typ> :: addWierz()
   {    
@@ -17,8 +22,15 @@ namespace PAMSI
       }
     
     addKraw();
+    createSasiad();
   }
 
+
+
+  
+  /**************************************************/
+  /* METODA GENERUJACA CO NAJMNIEJ 1 KRAW Z K WIERZ */ 
+  /**************************************************/ 
 
   template<typename Typ>
   void Graph<Typ> :: addKraw()
@@ -40,6 +52,25 @@ namespace PAMSI
 	    m_mac[idx + 1][idx] = static_cast<Typ>(buff);
 	  }
       }
+    
+    gen_los();                                          //Zacznij generowac losowe krawedzie
+   }
+
+
+
+
+
+  
+  /***************************************************/
+  /* METODA GENERUJACA LOS KRAW TAM GDZIE ICH NIE MA */ 
+  /***************************************************/
+  
+  template<typename Typ>
+  void Graph<Typ> :: gen_los()
+  {
+    std::random_device rnd;
+    std::mt19937 eng(rnd());     
+    Typ buff;
 
     int x,y;
 
@@ -52,13 +83,12 @@ namespace PAMSI
 	
 	
 	std::uniform_real_distribution<> distr(1, 9);           //TU ZMIENIC NA WIECEJ
-	buff = distr(eng);
+	buff = static_cast<Typ>(distr(eng));
 
 	if(m_mac[x][y] == 0 and x != y)
 	  {
 	    m_mac[x][y] = buff;
 	    m_mac[y][x] = buff;
-	    //std::cout<<"Kurwwa"<<std::endl;
 	  }
 
 	bool flag{true};
@@ -77,13 +107,96 @@ namespace PAMSI
 			break;
 		      }
 		  }
-		if(flag == false) break;
+		if(flag == false) break;                   //Przekaz flage o zerwaniu petli
 	      }
+
+	  }
+	
+      }
+        
+  }
+
+
+  /***************************************/
+  /* STWORZ VEKTORY OKRESLAJACE SASIADOW */ 
+  /***************************************/
+
+  template<typename Typ>
+  void Graph<Typ> :: createSasiad()
+  {
+    std::vector<Typ> temp;
+    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+      {
+	sasiady.push_back(temp);
+      }
+    
+    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+      {
+	for(unsigned int jdx = idx; jdx < m_wierz; ++jdx)
+	  {
+	    if(m_mac[idx][jdx] != 0) sasiady[idx].push_back(m_mac[idx][jdx]);
 	  }
       }
-
   }
-  
+
+
+
+
+
+  /**************************************************/
+  /* NAJKROTSZE DROGI W GRAFIE - DIJKSTRA ALGORITHM */ 
+  /**************************************************/
+    
+  template<typename Typ>
+  void Graph<Typ> ::  dijkstra_alg(unsigned int start)
+  {
+    Priority<Typ> kolejka;
+
+    kolejka.insert(0,start);
+
+    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+      {
+	if(idx == start) dystans[idx] = 0;
+	else dystans[idx] = 90000;
+
+	kolejka.insert(dystans[idx], idx);
+      }
+    
+
+    while(!kolejka.empty())
+      {
+	int minimal = kolejka.back();
+	kolejka.pop_back();
+	
+	for(unsigned int iter = 0; iter < sasiady[minimal].size(); ++iter)
+	  {
+	    if(dystans[sasiady[minimal][iter]] > dystans[minimal] + m_mac[minimal][sasiady[minimal][iter]])
+	      {
+		dystans[sasiady[minimal][iter]] = dystans[minimal] + m_mac[minimal][sasiady[minimal][iter]];
+	      }
+	  }
+
+	
+      }
+
+    
+  }
+
+
+  /*******************************************/
+  /* WYSWIETLA DYSTANSE PO WYKONANIU DIJKSTRY*/ 
+  /*******************************************/
+
+  template<typename Typ>
+  void Graph<Typ> :: wyswietl_dyst()
+  {
+    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+      {
+	std::cout<<"Dystans do wierzcholka: "<<idx<<" ---------------> "<<dystans[idx]<<std::endl;
+      }
+  }
+
+
   
 }  
   
@@ -92,54 +205,3 @@ namespace PAMSI
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-
-
-    if(m_mac[x][y] == 0)    //By byl prosty - nie mial petli
-    {                                 //Wloz krawedz tam gdzie jej nie ma i nie na przek.
-    if(x != y) m_mac[x][y] = static_cast<Typ>(buff);            
-    else
-    {
-    flag = true;
-	    
-    for(unsigned int idx = 0; idx < m_wierz; ++idx)
-    {
-    for(unsigned int jdx = 0; jdx < m_wierz; ++jdx)     
-    {                                        //daj to gdziekolwiek byle nie na przek
-    if(m_mac[idx][jdx] == 0 and idx != jdx)
-    {
-    m_mac[x][y] = static_cast<Typ>(buff);
-    flag = false;
-    break;
-    }
-    }
-    if(flag == false) break;
-    }
-    }
-    }
-
-
-    if(m_mac[x][y] == 0)    //By byl prosty - nie mial petli
-    {                                 //Wloz krawedz tam gdzie jej nie ma i nie na przek.
-    if(x != y) m_mac[x][y] = static_cast<Typ>(buff);            
-
-    }
-
-
-  */

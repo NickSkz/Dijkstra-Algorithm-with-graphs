@@ -67,6 +67,22 @@ namespace PAMSI
 
   
   template<class Typ>
+  void Priority<Typ> :: changePriority(Typ neu_klucz, int wierz)
+  {
+    for(auto& iter: priority_queue)
+      {
+	if(iter.mm_wierz == wierz)
+	  {
+	    iter.mm_klucz = neu_klucz;
+	    break;
+	  }
+      }
+    key_sort();
+  }
+    
+
+  
+  template<class Typ>
   int& Priority<Typ> :: operator [](Typ kom)
   {
     unsigned int idx = 0;

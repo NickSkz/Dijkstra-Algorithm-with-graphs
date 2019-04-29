@@ -40,6 +40,7 @@ namespace PAMSI
     void pop_back(){ priority_queue.pop_back(); };
     int front(){ return priority_queue.front().mm_wierz; };
     bool empty(){ return (priority_queue.empty() ? true:false); };
+    void changePriority(Typ klucz, int wierz);
     
     int& operator [](Typ kom);
     int operator [](Typ kom)const;

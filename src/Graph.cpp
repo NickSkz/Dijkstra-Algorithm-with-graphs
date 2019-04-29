@@ -132,9 +132,9 @@ namespace PAMSI
     
     for(unsigned int idx = 0; idx < m_wierz; ++idx)
       {
-	for(unsigned int jdx = idx; jdx < m_wierz; ++jdx)
+	for(unsigned int jdx = 0; jdx < m_wierz; ++jdx)
 	  {
-	    if(m_mac[idx][jdx] != 0) sasiady[idx].push_back(m_mac[idx][jdx]);
+	    if(m_mac[idx][jdx] != 0) sasiady[idx].push_back(jdx);
 	  }
       }
   }
@@ -157,9 +157,11 @@ namespace PAMSI
     for(unsigned int idx = 0; idx < m_wierz; ++idx)
       {
 	if(idx == start) dystans[idx] = 0;
-	else dystans[idx] = 90000;
-
-	kolejka.insert(dystans[idx], idx);
+	else
+	  {
+	    dystans[idx] = 900000;	    
+	    kolejka.insert(dystans[idx], idx);
+	  }
       }
     
 
@@ -173,10 +175,11 @@ namespace PAMSI
 	    if(dystans[sasiady[minimal][iter]] > dystans[minimal] + m_mac[minimal][sasiady[minimal][iter]])
 	      {
 		dystans[sasiady[minimal][iter]] = dystans[minimal] + m_mac[minimal][sasiady[minimal][iter]];
+		kolejka.changePriority(dystans[sasiady[minimal][iter]], sasiady[minimal][iter]);
 	      }
 	  }
 
-	
+
       }
 
     

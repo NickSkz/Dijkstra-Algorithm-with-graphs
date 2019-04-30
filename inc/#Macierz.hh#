@@ -1,0 +1,10 @@
+#ifndef MACIERZ_HH
+#define MACIERZ_HH
+
+template<typename Typ>
+class Macierz
+{
+  
+}
+
+#endif

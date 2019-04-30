@@ -45,7 +45,7 @@ namespace PAMSI
       {
 	if(idx < m_wierz - 1)
 	  {
-	    std::uniform_real_distribution<> distr(1, 9);       //TU ZMIENIC NA WIECEJ
+	    std::uniform_real_distribution<> distr(1, 500);       //TU ZMIENIC NA WIECEJ
 	    buff = distr(eng);
 	    
 	    m_mac[idx][idx + 1] = static_cast<Typ>(buff);
@@ -82,7 +82,7 @@ namespace PAMSI
 	y = dtr(eng);
 	
 	
-	std::uniform_real_distribution<> distr(1, 9);           //TU ZMIENIC NA WIECEJ
+	std::uniform_real_distribution<> distr(1, 500);           //TU ZMIENIC NA WIECEJ
 	buff = static_cast<Typ>(distr(eng));
 
 	if(m_mac[x][y] == 0 and x != y)
@@ -159,7 +159,7 @@ namespace PAMSI
 	if(idx == start) dystans[idx] = 0;
 	else
 	  {
-	    dystans[idx] = 900000;	    
+	    dystans[idx] = 9999999;	    
 	    kolejka.insert(dystans[idx], idx);
 	  }
       }

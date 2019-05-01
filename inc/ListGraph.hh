@@ -1,34 +1,46 @@
-#ifndef GRAPH_HH
-#define GRAPH_HH
+#ifndef LISTGRAPH_HH
+#define LISTGRAPH_HH
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <random>
 #include <exception>
+#include <list>
 
 #include "Priority.hh"
 
-constexpr auto browar {12.21};
-
-enum class czy_plik
-{
-  nPlik,
-  Plik
-};
-
 namespace PAMSI
-{ 
+{
   template<typename Typ>
-  class Graph
+  struct Wezl
+  {      
+    Typ mm_klucz;
+    int mm_wierz;
+
+    Wezl(Typ klucz, int wierz): mm_klucz{klucz}, mm_wierz{wierz} {};
+    Wezl(): mm_klucz{0}, mm_wierz{0} {};
+      
+    int& operator [](Typ klucz) {return mm_wierz;};
+    int operator [](Typ klucz)const {return mm_wierz;};
+  };
+
+
+  
+  template<typename Typ>
+  class ListGraph
   {
   private:
+
+    template<typename Ty>
+    friend std::ostream& operator << (std::ostream& Strm, const ListGraph<Ty>& pokazywany);
+    
+    
     unsigned int m_wierz;                                         //L wierz + kraw + gestosc
     unsigned int m_kraw;
     double m_gest;
   
-    std::vector<std::vector<Typ>> m_mac;                                   //Macierz WAGOWA sasiedztwa
-    std::vector<std::vector<Typ>> sasiady;
+    std::vector<std::list<Wezl<Typ>>> m_mac;                                   //Macierz WAGOWA sasiedztwa
     //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
     void gen_los();
@@ -37,10 +49,8 @@ namespace PAMSI
 
     int* dystans;
     
-    template<typename Ty>
-    friend std::ostream& operator << (std::ostream& Strm, const Graph<Ty>& pokazywany);
     
-    Graph(unsigned int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<unsigned int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
+    ListGraph(unsigned int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<unsigned int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
     {
       try
 	{
@@ -60,7 +70,6 @@ namespace PAMSI
     void addWierz();
     void addKraw();
     void czytajPlik(){ std::cout<<"Czytam z pliku"<<std::endl; };
-    void createSasiad();
 
 
     void dijkstra_alg(unsigned int start);
@@ -69,22 +78,16 @@ namespace PAMSI
 
 
 
-
-
-
-
-
-
-
+  
   template<typename Ty>
-  std::ostream& operator << (std::ostream& Strm, const Graph<Ty>& pokazywany)
+  std::ostream& operator << (std::ostream& Strm, const ListGraph<Ty>& pokazywany)
   {
     for(unsigned int idx = 0; idx < pokazywany.m_wierz; ++idx)
       {	
-	for(unsigned int jdx = 0; jdx < pokazywany.m_wierz; ++jdx)
+	for(typename std::list<Wezl<Ty>>::iterator iter = pokazywany.m_mac[idx].begin(); iter != pokazywany.m_mac[idx].end(); ++iter)
 	  {
-	    Strm<<pokazywany.m_mac[idx].at(jdx)<<"  ";
-	  }
+	    Strm<<(*iter).mm_klucz<<", "<<(*iter).mm_wierz<<" -----> ";
+	  }	  
 	Strm<<std::endl;
       }
     return Strm;
@@ -93,6 +96,6 @@ namespace PAMSI
 
 }
 
-#include "Graph.cpp"
+#include "ListGraph.cpp"
 
 #endif

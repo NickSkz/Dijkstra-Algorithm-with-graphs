@@ -4,6 +4,7 @@
 
 #include "Alias.hh"
 #include "Graph.hh"
+#include "ListGraph.hh"
 
 using namespace std;
 
@@ -20,12 +21,11 @@ int main()
 
   if(gest < 0 or gest > 1) {cout<<"|***UWAGA***| Gestosc poza skala (ustawiono 0.5)\n"; gest = 0.5;}
     
-
-  vector<PAMSI::Graph<pogon>> graffy;
+  vector<PAMSI::ListGraph<pogon>> graffy;
  
-  for(int idx = 0; idx < 3; ++idx)
+  for(int idx = 0; idx < 100; ++idx)
     {
-      PAMSI::Graph<pogon> testObj(rozm, gest, czy_plik::nPlik);
+      PAMSI::ListGraph<pogon> testObj(rozm, gest, czy_plik::nPlik);
       graffy.push_back(testObj);
       //cout<<graffy[idx]<<endl;
     }
@@ -48,5 +48,7 @@ int main()
   for(auto& iter: tab_czas) czas_sr+= iter;
 
   cout<<"Sredni czas wykonywania pojedynczego algorytmu: "<<czas_sr/100<<endl;
+
+
 }
 

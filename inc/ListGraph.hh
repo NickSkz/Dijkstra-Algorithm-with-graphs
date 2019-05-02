@@ -9,6 +9,7 @@
 #include <list>
 
 #include "Priority.hh"
+#include "Karta.hh"
 
 namespace PAMSI
 {
@@ -40,7 +41,7 @@ namespace PAMSI
     int m_kraw;
     double m_gest;
   
-    std::vector<std::list<Wezl<Typ>>> m_mac;                                   //Macierz WAGOWA sasiedztwa
+    std::vector<list<Wezl<Typ>>> m_mac;                                   //Macierz WAGOWA sasiedztwa
     //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
     void gen_los();
@@ -84,9 +85,9 @@ namespace PAMSI
   {
     for(int idx = 0; idx < pokazywany.m_wierz; ++idx)
       {	
-	for(typename std::list<Wezl<Ty>>::iterator iter = pokazywany.m_mac[idx].begin(); iter != pokazywany.m_mac[idx].end(); ++iter)
+	for(int jdx = 0; jdx < pokazywany.m_mac[idx].size(); ++jdx)
 	  {
-	    Strm<<"["<<(*iter).mm_klucz<<", "<<(*iter).mm_wierz<<"]"<<" -----> ";
+	    Strm<<"["<<pokazywany.m_mac[idx][jdx].mm_klucz<<", "<<pokazywany.m_mac[idx][jdx].mm_wierz<<"]"<<" -----> ";
 	  }	  
 	Strm<<std::endl;
       }

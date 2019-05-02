@@ -9,7 +9,7 @@ namespace PAMSI
   template<typename Typ>
   void ListGraph<Typ> :: addWierz()
   {    
-    std::list<Wezl<Typ>> neues;
+    list<Wezl<Typ>> neues;
 
     // Lista ZEROWA
     for(int idx{0}; idx < m_wierz; ++idx)
@@ -163,12 +163,12 @@ namespace PAMSI
 	int minimal = kolejka.back();
 	kolejka.pop_back();
 
-	for(typename std::list<Wezl<Typ>>::iterator iter = m_mac[minimal].begin(); iter != m_mac[minimal].end(); ++iter)
+	for(int idx = 0; idx < m_mac[minimal].size(); ++idx)
 	  {
-	    if(dystans[(*iter).mm_wierz] > dystans[minimal] + (*iter).mm_klucz)
+	    if(dystans[m_mac[minimal][idx].mm_wierz] > dystans[minimal] + m_mac[minimal][idx].mm_klucz)
 	      {
-		dystans[(*iter).mm_wierz] = dystans[minimal] + (*iter).mm_klucz;
-		kolejka.changePriority(dystans[(*iter).mm_wierz], (*iter).mm_wierz); 
+		dystans[m_mac[minimal][idx].mm_wierz] = dystans[minimal] + m_mac[minimal][idx].mm_klucz;
+		kolejka.changePriority(dystans[m_mac[minimal][idx].mm_wierz], m_mac[minimal][idx].mm_wierz); 
 	      }
 	  }
 

@@ -5,7 +5,7 @@ target: obj obj/main.o
 obj:
 	mkdir -p obj
 
-obj/main.o: src/main.cpp inc/Alias.hh  inc/Graph.hh src/Graph.cpp inc/Priority.hh src/Priority.cpp inc/ListGraph.hh src/ListGraph.cpp
+obj/main.o: src/main.cpp inc/Alias.hh  inc/Graph.hh src/Graph.cpp inc/Priority.hh src/Priority.cpp inc/ListGraph.hh src/ListGraph.cpp inc/Karta.hh src/Karta.cpp
 	g++ -c -g -Iinc -Isrc -std=c++11 -Wall -pedantic -o obj/main.o src/main.cpp
 
 

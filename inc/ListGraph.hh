@@ -33,11 +33,11 @@ namespace PAMSI
   private:
 
     template<typename Ty>
-    friend std::ostream& operator << (std::ostream& Strm, const ListGraph<Ty>& pokazywany);
+    friend std::ostream& operator << (std::ostream& Strm, ListGraph<Ty>& pokazywany);
     
     
-    unsigned int m_wierz;                                         //L wierz + kraw + gestosc
-    unsigned int m_kraw;
+    int m_wierz;                                         //L wierz + kraw + gestosc
+    int m_kraw;
     double m_gest;
   
     std::vector<std::list<Wezl<Typ>>> m_mac;                                   //Macierz WAGOWA sasiedztwa
@@ -50,7 +50,7 @@ namespace PAMSI
     int* dystans;
     
     
-    ListGraph(unsigned int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<unsigned int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
+    ListGraph(int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
     {
       try
 	{
@@ -64,15 +64,15 @@ namespace PAMSI
       dystans = new int[m_wierz];
     };
 
-    Typ& operator [](unsigned int ile) { return m_mac[ile]; }
-    Typ operator [](unsigned int ile)const { return m_mac[ile]; }
+    Typ& operator [](int ile) { return m_mac[ile]; }
+    Typ operator [](int ile)const { return m_mac[ile]; }
     
     void addWierz();
     void addKraw();
     void czytajPlik(){ std::cout<<"Czytam z pliku"<<std::endl; };
 
 
-    void dijkstra_alg(unsigned int start);
+    void dijkstra_alg(int start);
     void wyswietl_dyst();
   };
 
@@ -80,13 +80,13 @@ namespace PAMSI
 
   
   template<typename Ty>
-  std::ostream& operator << (std::ostream& Strm, const ListGraph<Ty>& pokazywany)
+  std::ostream& operator << (std::ostream& Strm, ListGraph<Ty>& pokazywany)
   {
-    for(unsigned int idx = 0; idx < pokazywany.m_wierz; ++idx)
+    for(int idx = 0; idx < pokazywany.m_wierz; ++idx)
       {	
 	for(typename std::list<Wezl<Ty>>::iterator iter = pokazywany.m_mac[idx].begin(); iter != pokazywany.m_mac[idx].end(); ++iter)
 	  {
-	    Strm<<(*iter).mm_klucz<<", "<<(*iter).mm_wierz<<" -----> ";
+	    Strm<<"["<<(*iter).mm_klucz<<", "<<(*iter).mm_wierz<<"]"<<" -----> ";
 	  }	  
 	Strm<<std::endl;
       }

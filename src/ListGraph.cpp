@@ -12,7 +12,7 @@ namespace PAMSI
     std::list<Wezl<Typ>> neues;
 
     // Lista ZEROWA
-    for(unsigned int idx{0}; idx < m_wierz; ++idx)
+    for(int idx{0}; idx < m_wierz; ++idx)
       {
 	m_mac.push_back(neues);
       }
@@ -36,7 +36,7 @@ namespace PAMSI
 
     
     //CO NAJMNIEJ 1 DROGA "OD A DO F" dla grafu nieskierowanego
-    for(unsigned int idx{0}; idx < m_wierz; ++idx)
+    for(int idx{0}; idx < m_wierz; ++idx)
       {
 	if(idx < m_wierz - 1)
 	  {
@@ -73,7 +73,7 @@ namespace PAMSI
     int wezelo, prim_wezelo;                 //Losowy wezel
 
     //Wygenerowanie losowego grafu
-    for(unsigned int iter{0}; iter < m_kraw - m_wierz + 1; ++iter)   //Bo juz mamy podst sciezke
+    for(int iter{0}; iter < m_kraw - m_wierz + 1; ++iter)   //Bo juz mamy podst sciezke
       {
 	std::uniform_int_distribution<> dtr(0, m_wierz - 1);
         wezelo = dtr(eng);
@@ -89,31 +89,50 @@ namespace PAMSI
 
 
 	//	std::cout<<wezelo<<" "<<prim_wezelo<<std::endl;
-	    
-	if(m_mac[wezelo].size() < m_wierz - 1 and m_mac[prim_wezelo].size() < m_wierz - 1)
-	  {
-	    m_mac[wezelo].push_back(neu);
-	    m_mac[prim_wezelo].push_back(prime_neu); 
-	  }
-
-	else
-	  {	    		
-	    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+	
+	if(iter%2 == 0)
+	  {	    	    		
+	    for(int idx = 0; idx < m_wierz; ++idx)
 	      {
-		if(m_mac[wezelo].size() < m_wierz and m_mac[prim_wezelo].size() < m_wierz)
+		if(static_cast<int>(m_mac[idx].size()) < m_wierz and static_cast<int>(m_mac[wezelo].size()) < m_wierz)
 		  {
-		    m_mac[wezelo].push_back(neu);
-		    m_mac[prim_wezelo].push_back(prime_neu);
-		    break;
+		    if(idx != wezelo and wezelo != (idx + 1) and wezelo != (idx - 1))
+		      {
+			Wezl<Typ> neu(buff, idx);
+			Wezl<Typ> prime_neu(buff, wezelo);
+		    
+			m_mac[wezelo].push_back(neu);
+			m_mac[idx].push_back(prime_neu);
+			break;
+		      }
 		  }
-	      }
+	      }	    
+	  }
+	else
+	  {
+	    for(int idx = m_wierz - 1; idx >= 0; --idx)
+	      {
+		if(static_cast<int>(m_mac[idx].size()) < m_wierz and static_cast<int>(m_mac[wezelo].size()) < m_wierz)
+		  {
+		    if(idx != wezelo and wezelo != (idx + 1) and wezelo != (idx - 1))
+		      {
+			Wezl<Typ> neu(buff, idx);
+			Wezl<Typ> prime_neu(buff, wezelo);
+		    
+			m_mac[wezelo].push_back(neu);
+			m_mac[idx].push_back(prime_neu);
+			break;
+		      }
+		  }
+	      }	   
 	  }
 	
-      	
       }
-        
+    
+     
+    
   }
-
+  
 
 
 
@@ -122,13 +141,13 @@ namespace PAMSI
   /**************************************************/
     
   template<typename Typ>
-  void ListGraph<Typ> ::  dijkstra_alg(unsigned int start)
+  void ListGraph<Typ> ::  dijkstra_alg(int start)
   {
     Priority<Typ> kolejka;
 
     kolejka.insert(0,start);
 
-    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+    for(int idx = 0; idx < m_wierz; ++idx)
       {
 	if(idx == start) dystans[idx] = 0;
 	else
@@ -165,7 +184,7 @@ namespace PAMSI
   template<typename Typ>
   void ListGraph<Typ> :: wyswietl_dyst()
   {
-    for(unsigned int idx = 0; idx < m_wierz; ++idx)
+    for(int idx = 0; idx < m_wierz; ++idx)
       {
 	std::cout<<"Dystans do wierzcholka: "<<idx<<" ---------------> "<<dystans[idx]<<std::endl;
       }

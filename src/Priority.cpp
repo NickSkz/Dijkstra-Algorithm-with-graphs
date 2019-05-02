@@ -40,7 +40,7 @@ namespace PAMSI
       {
 	v_heap(N, idx);
       }
-
+    
     Wezl buff;
     
     for(int idx {N - 1}; idx > 0; --idx)
@@ -51,6 +51,7 @@ namespace PAMSI
 
 	v_heap(--N, 0);
       }
+    
   }
 
 

@@ -27,13 +27,9 @@ int main()
   testObj.dijkstra_alg(rozm/2);
   testObj.wyswietl_dyst();
 
-  PAMSI::Wezl<pogon> nodinho(12, 4);
+  PAMSI::Wezl<pogon> data;
   PAMSI::list<PAMSI::Wezl<pogon>> testList;
-  testList.push_back(nodinho);
-  testList.push_back(nodinho);
-  testList.push_back(nodinho);
-  
-  cout<<testList[1].mm_wierz<<endl;
+  testList.push_back(data);
   
   /*    
   vector<PAMSI::ListGraph<pogon>> graffy;

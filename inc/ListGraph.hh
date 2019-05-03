@@ -45,6 +45,7 @@ namespace PAMSI
     //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
     void gen_los();
+    std::vector<std::vector<bool>> w_kontrol = std::vector<std::vector<bool>>(m_wierz, std::vector<bool>(m_wierz));
     
   public:
 
@@ -52,7 +53,7 @@ namespace PAMSI
     
     
     ListGraph(int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
-    {
+    {      
       try
 	{
 	  czeck == czy_plik::nPlik ? addWierz() : czytajPlik();

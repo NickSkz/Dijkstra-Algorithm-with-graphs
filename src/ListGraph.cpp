@@ -48,6 +48,9 @@ namespace PAMSI
 	    
 	    m_mac[idx].push_back(neu);
 	    m_mac[idx + 1].push_back(prime_neu);
+
+	    w_kontrol[idx][idx + 1] = true;
+	    w_kontrol[idx + 1][idx] = true;
 	  }
       }
     
@@ -96,15 +99,22 @@ namespace PAMSI
 	      {
 		if(static_cast<int>(m_mac[idx].size()) < m_wierz and static_cast<int>(m_mac[wezelo].size()) < m_wierz)
 		  {
-		    if(idx != wezelo and wezelo != (idx + 1) and wezelo != (idx - 1))
-		      {
-			Wezl<Typ> neu(buff, idx);
-			Wezl<Typ> prime_neu(buff, wezelo);
-		    
-			m_mac[wezelo].push_back(neu);
-			m_mac[idx].push_back(prime_neu);
-			break;
-		      }
+		    if(idx != wezelo and wezelo != (idx + 1) and wezelo != (idx - 1))	
+			{
+			  if(w_kontrol[idx][wezelo] == false and w_kontrol[wezelo][idx] == false)
+			    {
+			      Wezl<Typ> neu(buff, idx);
+			      Wezl<Typ> prime_neu(buff, wezelo);
+			
+			      m_mac[wezelo].push_back(neu);
+			      m_mac[idx].push_back(prime_neu);
+
+			      w_kontrol[idx][wezelo] = true;
+			      w_kontrol[wezelo][idx] = true;
+			
+			      break;
+			    }
+			}
 		  }
 	      }	    
 	  }
@@ -116,12 +126,19 @@ namespace PAMSI
 		  {
 		    if(idx != wezelo and wezelo != (idx + 1) and wezelo != (idx - 1))
 		      {
-			Wezl<Typ> neu(buff, idx);
-			Wezl<Typ> prime_neu(buff, wezelo);
+			if(w_kontrol[idx][wezelo] == false and w_kontrol[wezelo][idx] == false)
+			  {
+			    Wezl<Typ> neu(buff, idx);
+			    Wezl<Typ> prime_neu(buff, wezelo);
 		    
-			m_mac[wezelo].push_back(neu);
-			m_mac[idx].push_back(prime_neu);
-			break;
+			    m_mac[wezelo].push_back(neu);
+			    m_mac[idx].push_back(prime_neu);
+
+			    w_kontrol[idx][wezelo] = true;
+			    w_kontrol[wezelo][idx] = true;
+			
+			    break;
+			  }
 		      }
 		  }
 	      }	   

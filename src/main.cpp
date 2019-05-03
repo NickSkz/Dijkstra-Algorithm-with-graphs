@@ -21,12 +21,14 @@ int main()
   cin>>gest;
 
   if(gest < 0 or gest > 1) {cout<<"|***UWAGA***| Gestosc poza skala (ustawiono 0.5)\n"; gest = 0.5;}
-  
+
+  /*
   PAMSI::ListGraph<pogon> testObj(rozm, gest, czy_plik::nPlik);
   cout<<testObj;
   testObj.dijkstra_alg(rozm/2);
   testObj.wyswietl_dyst();
-
+  */
+  /*
   PAMSI::Wezl<pogon> nodinho(12, 4);
   PAMSI::list<PAMSI::Wezl<pogon>> testList;
   testList.push_back(nodinho);
@@ -34,8 +36,8 @@ int main()
   testList.push_back(nodinho);
   
   cout<<testList[1].mm_wierz<<endl;
-  
-  /*    
+  */
+ 
   vector<PAMSI::ListGraph<pogon>> graffy;
  
   for(int idx = 0; idx < 100; ++idx)
@@ -64,7 +66,6 @@ int main()
   for(auto& iter: tab_czas) czas_sr+= iter;
 
   cout<<"Sredni czas wykonywania pojedynczego algorytmu: "<<czas_sr/100<<endl;
-
-  */
+  
 }
 

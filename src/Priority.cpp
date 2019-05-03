@@ -40,9 +40,18 @@ namespace PAMSI
       {
 	v_heap(N, idx);
       }
-    
-    Wezl buff;
-    
+
+
+    if(length() > 0)
+      {
+	Wezl buff;
+
+	buff = priority_queue[0];
+	priority_queue[0] = priority_queue[N - 1];
+	priority_queue[N - 1] = buff;
+      }
+
+    /*
     for(int idx {N - 1}; idx > 0; --idx)
       {
 	buff = priority_queue[0];
@@ -51,7 +60,7 @@ namespace PAMSI
 
 	v_heap(--N, 0);
       }
-    
+    */
   }
 
 

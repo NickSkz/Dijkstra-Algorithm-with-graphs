@@ -55,7 +55,7 @@ namespace PAMSI
     for(int idx {N - 1}; idx > 0; --idx)
       {
 	buff = priority_queue[0];
-	priority_queue[0] = priority_queue[idx];
+priority_queue[0] = priority_queue[idx];
 	priority_queue[idx] = buff;
 
 	v_heap(--N, 0);
@@ -70,8 +70,9 @@ namespace PAMSI
   template<class Typ>
   void Priority<Typ> :: insert(Typ klucz, int wierz)
   {
+    ++m_rozm;
     Wezl wrzc(klucz, wierz);
-    priority_queue.push_back(wrzc);
+    priority_queue[m_rozm - 1] = wrzc;
     key_sort();
   }
 
@@ -79,14 +80,14 @@ namespace PAMSI
   template<class Typ>
   void Priority<Typ> :: changePriority(Typ neu_klucz, int wierz)
   {
-    for(auto& iter: priority_queue)
+    for(int idx = 0; idx < m_rozm; ++idx)
       {
-	if(iter.mm_wierz == wierz)
+	if(priority_queue[idx].mm_wierz == wierz)
 	  {
-	    iter.mm_klucz = neu_klucz;
+	    priority_queue[idx].mm_klucz = neu_klucz;
 	    break;
 	  }
-      }
+      } 
     key_sort();
   }
     

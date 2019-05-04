@@ -25,21 +25,22 @@ namespace PAMSI
       int operator [](Typ klucz)const {return mm_wierz;};
     };
 
-    std::vector<Wezl> priority_queue;
+    Wezl* priority_queue;
 
     void v_heap(int rozm, int idx_rodz);
     void key_sort();
     
   public:
-    Priority(){};
+    int m_rozm;
+    
+    Priority(int rozm): m_rozm{0}{ priority_queue = new Wezl[rozm];};
     
     void insert(Typ klucz, int wierz);
     
-    int length(){ return priority_queue.size(); };
-    int back(){ return priority_queue.back().mm_wierz; };
-    void pop_back(){ priority_queue.pop_back(); };
-    int front(){ return priority_queue.front().mm_wierz; };
-    bool empty(){ return (priority_queue.empty() ? true:false); };
+    int length(){ return m_rozm; };
+    int back(){ return priority_queue[m_rozm - 1].mm_wierz; };
+    void pop_back(){ --m_rozm; key_sort(); };
+    //bool empty(){ return (priority_queue.empty() ? true:false); };
     void changePriority(Typ klucz, int wierz);
     
     int& operator [](Typ kom);

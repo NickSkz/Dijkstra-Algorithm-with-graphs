@@ -160,7 +160,7 @@ namespace PAMSI
   template<typename Typ>
   void ListGraph<Typ> ::  dijkstra_alg(int start)
   {
-    Priority<Typ> kolejka;
+    Priority<Typ> kolejka(m_wierz);
 
     kolejka.insert(0,start);
 
@@ -175,7 +175,7 @@ namespace PAMSI
       }
     
 
-    while(!kolejka.empty())
+    while(kolejka.m_rozm > 0)
       {
 	int minimal = kolejka.back();
 	kolejka.pop_back();

@@ -7,22 +7,8 @@ namespace PAMSI
   
   template<typename Typ>
   void Graph<Typ> :: addWierz()
-  {    
-    std::vector<Typ> neues;
-
-    // MACIERZ ZEROWA
-    for(unsigned int idx{0}; idx < m_wierz; ++idx)
-      {
-	m_mac.push_back(neues);
-	
-	for(unsigned int jdx{0}; jdx < m_wierz; ++jdx)
-	  {
-	    m_mac[idx].push_back(0);
- 	  }
-      }
-    
+  {        
     addKraw();
-    createSasiad();
   }
 
 
@@ -117,31 +103,6 @@ namespace PAMSI
   }
 
 
-  /***************************************/
-  /* STWORZ VEKTORY OKRESLAJACE SASIADOW */ 
-  /***************************************/
-
-  template<typename Typ>
-  void Graph<Typ> :: createSasiad()
-  {
-    std::vector<Typ> temp;
-    for(unsigned int idx = 0; idx < m_wierz; ++idx)
-      {
-	sasiady.push_back(temp);
-      }
-    
-    for(unsigned int idx = 0; idx < m_wierz; ++idx)
-      {
-	for(unsigned int jdx = 0; jdx < m_wierz; ++jdx)
-	  {
-	    if(m_mac[idx][jdx] != 0) sasiady[idx].push_back(jdx);
-	  }
-      }
-  }
-
-
-
-
 
   /**************************************************/
   /* NAJKROTSZE DROGI W GRAFIE - DIJKSTRA ALGORITHM */ 
@@ -170,12 +131,15 @@ namespace PAMSI
 	int minimal = kolejka.back();
 	kolejka.pop_back();
 	
-	for(unsigned int iter = 0; iter < sasiady[minimal].size(); ++iter)
+	for(unsigned int iter = 0; iter < m_wierz; ++iter)	  
 	  {
-	    if(dystans[sasiady[minimal][iter]] > dystans[minimal] + m_mac[minimal][sasiady[minimal][iter]])
+	    if(m_mac[minimal][iter] != 0)
 	      {
-		dystans[sasiady[minimal][iter]] = dystans[minimal] + m_mac[minimal][sasiady[minimal][iter]];
-		kolejka.changePriority(dystans[sasiady[minimal][iter]], sasiady[minimal][iter]);
+		if(dystans[iter] > dystans[minimal] + m_mac[minimal][iter])
+		  {
+		    dystans[iter] = dystans[minimal] + m_mac[minimal][iter];
+		    kolejka.changePriority(dystans[iter], iter);
+		  }
 	      }
 	  }
 

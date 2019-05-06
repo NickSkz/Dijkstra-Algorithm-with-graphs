@@ -27,8 +27,7 @@ namespace PAMSI
     unsigned int m_kraw;
     double m_gest;
   
-    std::vector<std::vector<Typ>> m_mac;                                   //Macierz WAGOWA sasiedztwa
-    std::vector<std::vector<Typ>> sasiady;
+    Typ** m_mac;                                   //Macierz WAGOWA sasiedztwa
     //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
     void gen_los();
@@ -42,6 +41,19 @@ namespace PAMSI
     
     Graph(unsigned int wierz, double gest, czy_plik czeck): m_wierz{wierz}, m_kraw{static_cast<unsigned int>((gest*wierz*(wierz - 1))/2)}, m_gest{gest}    //Konstr definiujacy czy graf z pliku - domyslne false
     {
+
+      m_mac = new Typ*[m_wierz];
+      for(unsigned int idx = 0; idx < m_wierz; ++idx)
+	{
+	  m_mac[idx] = new Typ[m_wierz];
+	  
+	  for(unsigned int jdx = 0; jdx < m_wierz; ++jdx)
+	    {
+	      m_mac[idx][jdx] = 0;
+	    }
+	}
+
+      
       try
 	{
 	  czeck == czy_plik::nPlik ? addWierz() : czytajPlik();
@@ -60,7 +72,6 @@ namespace PAMSI
     void addWierz();
     void addKraw();
     void czytajPlik(){ std::cout<<"Czytam z pliku"<<std::endl; };
-    void createSasiad();
 
 
     void dijkstra_alg(unsigned int start);
@@ -74,16 +85,14 @@ namespace PAMSI
 
 
 
-
-
   template<typename Ty>
   std::ostream& operator << (std::ostream& Strm, const Graph<Ty>& pokazywany)
   {
-    for(unsigned int idx = 0; idx < pokazywany.m_wierz; ++idx)
+    for(unsigned int idx = 0; idx < static_cast<unsigned int>(pokazywany.m_wierz); ++idx)
       {	
-	for(unsigned int jdx = 0; jdx < pokazywany.m_wierz; ++jdx)
+	for(unsigned int jdx = 0; jdx < static_cast<unsigned int>(pokazywany.m_wierz); ++jdx)
 	  {
-	    Strm<<pokazywany.m_mac[idx].at(jdx)<<"  ";
+	    Strm<<pokazywany.m_mac[idx][jdx]<<"  ";
 	  }
 	Strm<<std::endl;
       }

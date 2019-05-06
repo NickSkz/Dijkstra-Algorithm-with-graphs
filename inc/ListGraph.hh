@@ -41,11 +41,11 @@ namespace PAMSI
     int m_kraw;
     double m_gest;
   
-    std::vector<list<Wezl<Typ>>> m_mac;                                   //Macierz WAGOWA sasiedztwa
+    list<Wezl<Typ>>* m_mac;                                   //Macierz WAGOWA sasiedztwa
     //  std::fstream m_plik;                          //Obiekt fstream do czytania/pisania z/do pliku
 
     void gen_los();
-    std::vector<std::vector<bool>> w_kontrol = std::vector<std::vector<bool>>(m_wierz, std::vector<bool>(m_wierz));
+    bool** w_kontrol;
     
   public:
 

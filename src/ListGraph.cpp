@@ -8,14 +8,14 @@ namespace PAMSI
   
   template<typename Typ>
   void ListGraph<Typ> :: addWierz()
-  {    
-    list<Wezl<Typ>> neues;
-
-    // Lista ZEROWA
-    for(int idx{0}; idx < m_wierz; ++idx)
+  {
+    m_mac = new list<Wezl<Typ>>[m_wierz];
+    
+    w_kontrol = new bool*[m_wierz];      
+    for(int idx = 0; idx < m_wierz; ++idx)
       {
-	m_mac.push_back(neues);
-      }
+	w_kontrol[idx] = new bool[m_wierz];
+      }    
     
     addKraw();
   }
@@ -48,7 +48,7 @@ namespace PAMSI
 	    
 	    m_mac[idx].push_back(neu);
 	    m_mac[idx + 1].push_back(prime_neu);
-
+	    
 	    w_kontrol[idx][idx + 1] = true;
 	    w_kontrol[idx + 1][idx] = true;
 	  }
